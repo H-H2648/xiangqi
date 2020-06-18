@@ -4,6 +4,8 @@ export default class Piece {
       this.style = {backgroundImage: "url('"+iconUrl+"')"};
       this.posx = posx
       this.posy = posy
+      this.jiangposx = jiangposx
+      this.jiangposy = jiangposy
     }
 
     getPath(list, board, positionx, positiony){
