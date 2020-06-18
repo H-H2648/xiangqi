@@ -24,6 +24,7 @@ export default class Pao extends Piece {
         this.getPath(listPossible, board, x, this.posy)
         x = x - 1
       }
+      x = x-1
       while (x >= 0 && board[x][this.posy] === undefined){
         this.getPath(listPossible, board, x, this.posy)
         x = x - 1
