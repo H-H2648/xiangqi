@@ -1,11 +1,14 @@
 import Piece from './piece.js';
 
+//literal equivalent of rook in chess
+
+
 export default class Ju extends Piece {
     constructor(player, posx, posy){
       super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/2/2e/Xiangqi_rl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/f7/Xiangqi_rd1.svg"), posx, posy);
     }
 
-  
+    //checks 4 directions
     isMovePossible(board){
       var listPossible = []
       var x = this.posx - 1

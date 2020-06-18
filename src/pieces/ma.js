@@ -1,9 +1,14 @@
 import Piece from './piece.js';
+//almost equivalent to knight of chess
+//it moves one in one direction, then a diagonal with the component of the direction it moved in being positive. If there is anything in the way between it, then ma cannob move
+
 export default class Ma extends Piece {
     constructor(player, posx, posy){
       super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/0/04/Xiangqi_hl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xiangqi_hd1.svg"), posx, posy);
     }
   
+    //checks if there is anything that is blocking ma's way
+    // if not it can go
     isMovePossible(board){
       var listPossible = []
       if (this.posx > 1){

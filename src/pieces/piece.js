@@ -1,14 +1,15 @@
+//general properties of a piece. It has a player, appearances, posx, posy
+
 export default class Piece {
     constructor(player, iconUrl, posx, posy){
       this.player = player;
       this.style = {backgroundImage: "url('"+iconUrl+"')"};
       this.posx = posx
       this.posy = posy
-      this.jiangposx = jiangposx
-      this.jiangposy = jiangposy
     }
 
     getPath(list, board, positionx, positiony){
+      //more detailed way; but for now use the simple way
       /*if (board[positionx][positiony] === undefined){
         list.push([positionx, positiony, "path"])
       }
@@ -16,6 +17,9 @@ export default class Piece {
         list.push([positionx, positiony, "kill"])
       }
       */
+     
+    // if the place is open, then it can obviously go there (assuming that this place is accessible by the piece)
+    // 
      if (board[positionx][positiony] === undefined || board[positionx][positiony].player !== this.player){
        list.push([positionx, positiony])
      }
@@ -37,7 +41,7 @@ export default class Piece {
       return true;
     }
   
-  //finds a in b
+  //finds if a is inside b (the array); a helper function lol
     arrayIncludes(a, b){
       for (var ii = 0; ii < b.length; ++ii){
           if (this.arraysEqual(b[ii], a)){

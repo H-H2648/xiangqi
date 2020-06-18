@@ -1,6 +1,9 @@
 import Piece from './piece.js';
+
+//types of pieces such that it cannot go outside the box (jiang, shi)
 export default class BoxedPiece extends Piece {
 
+    //returns the box that the pieces physically cannot leave
     box(){
         if (this.player === 1){
         return [[0, 3], [0, 4], [0, 5], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5]]

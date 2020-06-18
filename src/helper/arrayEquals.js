@@ -1,5 +1,6 @@
 //directly copied from stackoverflow lol THANKS
 
+//this function compares two arrays (no native equal operator)
 function arraysEqual(a, b) {
     if (a === b) return true;
     if (a == null || b == null) return false;
@@ -16,7 +17,7 @@ function arraysEqual(a, b) {
     return true;
   }
 
-//finds a in b
+//finds if a is inside an array, b
 function arrayIncludes(a, b){
     for (var ii = 0; ii < b.length; ++ii){
         if (arraysEqual(b[ii], a)){

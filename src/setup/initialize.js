@@ -6,6 +6,9 @@ import Pao from '../pieces/pao.js';
 import Shi from '../pieces/shi.js';
 import Xiang from '../pieces/xiang.js';
 
+//fully initializes the board in the beggining
+//puts all the pieces in the right place
+//this function is used in the beggining
 export default function initializeBoard(){
   const board = [];
   for(var ii=0; ii<10; ++ii) {

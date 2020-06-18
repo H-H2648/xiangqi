@@ -1,3 +1,5 @@
+//OG index.js with hot module reloading
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

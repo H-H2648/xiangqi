@@ -3,35 +3,49 @@ import  './App.css';
 import Board from './board.js' 
 import initializeBoard from './setup/initialize.js'
 
+//main react code
 class App extends Component {
   constructor(){
     super();
     this.state = {
+      // we start with setting up the board
       points: initializeBoard(),
+      // the first player is player 1
       player: 1,
+      // refers to the point selected; undefined because no point has been selected yet
       sourceSelection: undefined,
       status: '',
+      // it's the "red"'s turn lol
       turn: 'red'
     }
   }
 
   
+  //function when point [i, j] is selected
   handleClick(ij){
     const points = this.state.points.slice();
+    //if nothing was selected before:
     if (this.state.sourceSelection === undefined){
+      // the user must choose their own piece first
       if(!points[ij[0]][ij[1]] || points[ij[0]][ij[1]].player !== this.state.player){
         this.setState({status: "Wrong selection. Choose player " + this.state.player + " pieces."});
       }
       else{
+        //not sure what this does lol
         points[ij[0]][ij[1]].style = {...points[ij[0]][ij[1]].style, backgroundColor: "RGB(111,143,114)"}; // Emerald from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html
+        // for debuggig purpose
         console.log(points[ij[0]][ij[1]].isMovePossible(this.state.points))
+        // the status becomes: choose destination
+        // the source slection is now [i, j]
         this.setState({
           status: "Choose destination for the selected piece",
           sourceSelection: [ij[0], ij[1]]
         });
       }
     }
+    // if the piece to move was already chosen:
     else if(this.state.sourceSelection !== undefined){
+      // if the player tries to kill their own pieces
       if(points[ij[0]][ij[1]] && points[ij[0]][ij[1]].player === this.state.player){
         this.setState({
           status: "Wrong selection. Choose valid source and destination again.",
@@ -39,11 +53,15 @@ class App extends Component {
         });
       }
       else{
+        // if player chooses places that are not their own pieces and is actually accessible by the piece chosen:
         if (this.arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].isMovePossible(points))){
+          //moves the piece
           points[ij[0]][ij[1]] = points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
           points[ij[0]][ij[1]].posx = ij[0]
           points[ij[0]][ij[1]].posy = ij[1]
+          // deletes the OG point
           delete points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
+          //changes player
           this.setState({
             statsus: "",
             sourceSelection: undefined,
@@ -52,6 +70,7 @@ class App extends Component {
             points: points
           });
         }
+        // if player tries to move their piece to an unaccessible place:
         else{
           this.setState({
             status: "Wrong selection. Choose valid source and destination again.",

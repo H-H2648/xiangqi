@@ -1,11 +1,15 @@
 import Piece from './piece.js';
 
+//it can move in any direction
+// in order for it to kill something, it must have something between (like a cannon shooting)
 
 export default class Pao extends Piece {
     constructor(player, posx, posy){
       super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/1/1f/Xiangqi_cl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/4/43/Xiangqi_cd1.svg"), posx, posy);
     }
   
+    //checks move in all directions
+    //checks for kills
     isMovePossible(board){
       var listPossible = []
       var x = this.posx + 1
