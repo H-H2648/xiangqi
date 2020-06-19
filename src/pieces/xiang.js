@@ -4,7 +4,7 @@ import Piece from './piece.js';
 
 export default class Xiang extends Piece {
     constructor(player, posx, posy){
-      super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/7/77/Xiangqi_el1.svg" : "https://upload.wikimedia.org/wikipedia/commons/1/1a/Xiangqi_ed1.svg"), posx, posy);
+      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/7/77/Xiangqi_el1.svg" : "https://upload.wikimedia.org/wikipedia/commons/1/1a/Xiangqi_ed1.svg"), posx, posy);
     }
 
     //all the points xiang can theoretically go to

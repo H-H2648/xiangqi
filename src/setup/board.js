@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './App.css';
+import '../App.css';
 import Point from './point.js';
 
 export default class Board extends React.Component {

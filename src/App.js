@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import  './App.css';
-import Board from './board.js' 
+import Board from './setup/board.js' 
 import initializeBoard from './setup/initialize.js'
+import player from './setup/player.js'
+import Player from './setup/player.js';
+
 
 //main react code
+var player1 = new Player(1, 0, 4)
+var player2 = new Player(2, 9, 4)
+
 class App extends Component {
+  //initializes the players
   constructor(){
     super();
     this.state = {
       // we start with setting up the board
-      points: initializeBoard(),
+      points: initializeBoard(player1, player2),
       // the first player is player 1
-      player: 1,
+      player: player1,
       // refers to the point selected; undefined because no point has been selected yet
       sourceSelection: undefined,
       status: '',
@@ -109,11 +116,11 @@ class App extends Component {
   }
 
   playerSwitch(player){
-    if (player === 1){
-      return 2
+    if (player === player1){
+      return player2
     }
-    if (player === 2){
-      return 1
+    if (player === player2){
+      return player1
     }
   }
   

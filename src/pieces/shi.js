@@ -5,7 +5,7 @@ import BoxedPiece from './boxedPiece.js';
 
 export default class Shi extends BoxedPiece {
   constructor(player, posx, posy){
-    super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/e/ed/Xiangqi_al1.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/f5/Xiangqi_ad1.svg"), posx, posy);
+    super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/e/ed/Xiangqi_al1.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/f5/Xiangqi_ad1.svg"), posx, posy);
   }
   
   isMovePossible(board){

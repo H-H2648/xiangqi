@@ -4,7 +4,7 @@ import BoxedPiece from './boxedPiece.js';
 //equivalent to king of chess; it cannot leave the box
 export default class Jiang extends BoxedPiece {
   constructor(player, posx, posy){
-    super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/5/50/Xiangqi_gl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/6/69/Xiangqi_gd1.svg"), posx, posy);
+    super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/5/50/Xiangqi_gl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/6/69/Xiangqi_gd1.svg"), posx, posy);
   }
 
 

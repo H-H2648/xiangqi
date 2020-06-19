@@ -4,7 +4,7 @@ import Piece from './piece.js';
 
 export default class Ma extends Piece {
     constructor(player, posx, posy){
-      super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/0/04/Xiangqi_hl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xiangqi_hd1.svg"), posx, posy);
+      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/0/04/Xiangqi_hl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xiangqi_hd1.svg"), posx, posy);
     }
   
     //checks if there is anything that is blocking ma's way
