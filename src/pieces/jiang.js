@@ -1,4 +1,5 @@
 import BoxedPiece from './boxedPiece.js';
+import arrayIncludes from '../helper/arrayEquals.js'
 
 //jiang, the most important piece of the game
 //equivalent to king of chess; it cannot leave the box
@@ -15,7 +16,7 @@ export default class Jiang extends BoxedPiece {
     var listPossible = []
     var possible = [[this.posx + 1, this.posy], [this.posx - 1, this.posy], [this.posx, this.posy-1], [this.posx, this.posy + 1]]
     for (var ii = 0; ii < possible.length; ++ii){
-      if (this.arrayIncludes(possible[ii], this.box())){
+      if (arrayIncludes(possible[ii], this.box())){
         this.getPath(listPossible, board, possible[ii][0], possible[ii][1])
       }
     }

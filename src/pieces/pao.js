@@ -19,7 +19,6 @@ export default class Pao extends Piece {
       }
       x = x + 1
       while (x < 10 && board[x][this.posy] === undefined){
-        this.getPath(listPossible, board, x, this.posy)
         x = x + 1
       }
       if (x < 10){
@@ -32,7 +31,6 @@ export default class Pao extends Piece {
       }
       x = x-1
       while (x >= 0 && board[x][this.posy] === undefined){
-        this.getPath(listPossible, board, x, this.posy)
         x = x - 1
       }
       if (x >= 0 ){
@@ -44,7 +42,6 @@ export default class Pao extends Piece {
         y = y + 1
       }
       while (y < 9 && board[this.posx][y] === undefined){
-        this.getPath(listPossible, board, this.posx, y)
         y = y+1
       }
       if (y < 9){
@@ -56,7 +53,6 @@ export default class Pao extends Piece {
         y = y - 1
       }
       while (y >= 0 && board[this.posx][y] === undefined){
-        this.getPath(listPossible, board, this.posx, y)
         y = y-1
       }
       if (y >= 0){

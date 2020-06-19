@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import  './App.css';
 import Board from './setup/board.js' 
 import initializeBoard from './setup/initialize.js'
-import player from './setup/player.js'
 import Player from './setup/player.js';
+import arrayIncludes from './helper/arrayEquals.js'
 
 
 //main react code
@@ -41,6 +41,7 @@ class App extends Component {
         //not sure what this does lol
         points[ij[0]][ij[1]].style = {...points[ij[0]][ij[1]].style, backgroundColor: "RGB(111,143,114)"}; // Emerald from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html
         // for debuggig purpose
+        //DELETE LATER
         console.log(points[ij[0]][ij[1]].isMovePossible(this.state.points))
         // the status becomes: choose destination
         // the source slection is now [i, j]
@@ -61,13 +62,26 @@ class App extends Component {
       }
       else{
         // if player chooses places that are not their own pieces and is actually accessible by the piece chosen:
-        if (this.arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].isMovePossible(points))){
-          //moves the piece
-          points[ij[0]][ij[1]] = points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
-          points[ij[0]][ij[1]].posx = ij[0]
-          points[ij[0]][ij[1]].posy = ij[1]
-          // deletes the OG point
-          delete points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
+        if (arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].isMovePossible(points))){
+          //creates a theoretical board such that we see if this move results in getting checked yourself (prevents suicide)
+          const theoreticalPoints = points
+          console.log(theoreticalPoints)
+          theoreticalPoints[ij[0]][ij[1]] = theoreticalPoints[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
+          theoreticalPoints[ij[0]][ij[1]].posx = ij[0]
+          theoreticalPoints[ij[0]][ij[1]].posy = ij[1]
+          //if we have a suicide
+          if (this.state.player.isInDanger(theoreticalPoints)){
+            this.setState({
+              status: "We don't allow suicides. Choose valid source and destination again.",
+              sourceSelection: undefined
+            });
+          }
+          else{
+            points[ij[0]][ij[1]] = points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
+            points[ij[0]][ij[1]].posx = ij[0]
+            points[ij[0]][ij[1]].posy = ij[1]
+            delete points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
+          }
           //changes player
           this.setState({
             statsus: "",
@@ -88,7 +102,7 @@ class App extends Component {
     }
   }
   
-  
+  /*
   arraysEqual(a, b) {
     if (a === b) return true;
     if (a == null || b == null) return false;
@@ -113,7 +127,7 @@ class App extends Component {
         }
     }
     return false
-  }
+  */
 
   playerSwitch(player){
     if (player === player1){

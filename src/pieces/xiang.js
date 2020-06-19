@@ -1,4 +1,5 @@
 import Piece from './piece.js';
+import arrayIncludes from '../helper/arrayEquals.js'
 //can only move diagonally (by 2 steps)
 // can't cross the river
 
@@ -9,7 +10,7 @@ export default class Xiang extends Piece {
 
     //all the points xiang can theoretically go to
     allowedPlace(){
-      if (this.player === 1){
+      if (this.player.playerId === 1){
         return [[0, 2], [0, 6], [2, 0], [2, 4], [2, 8], [4, 2], [4, 6]]
       } 
       else{
@@ -20,22 +21,22 @@ export default class Xiang extends Piece {
     isMovePossible(board){
       var listPossible = []
       if (0 <= this.posx && this.posx <= 7 && 0 <=this.posy && this.posy <= 6 && board[this.posx + 1][this.posy + 1] === undefined){
-        if (this.arrayIncludes([this.posx + 2, this.posy + 2], this.allowedPlace())){
+        if (arrayIncludes([this.posx + 2, this.posy + 2], this.allowedPlace())){
           this.getPath(listPossible, board, this.posx + 2, this.posy + 2)
         }
       }
       if (0 <= this.posx && this.posx <= 7 && 2 <=this.posy && this.posy <= 8 && board[this.posx + 1][this.posy - 1] === undefined){
-        if(this.arrayIncludes([this.posx + 2, this.posy - 2], this.allowedPlace())){
+        if(arrayIncludes([this.posx + 2, this.posy - 2], this.allowedPlace())){
           this.getPath(listPossible, board, this.posx + 2, this.posy -2)
         }
       }
       if (2 <= this.posx && this.posx <= 9 && 0 <=this.posy && this.posy <= 6 && board[this.posx - 1][this.posy + 1] === undefined){
-        if (this.arrayIncludes([this.posx - 2, this.posy + 2], this.allowedPlace())){
+        if (arrayIncludes([this.posx - 2, this.posy + 2], this.allowedPlace())){
           this.getPath(listPossible, board, this.posx - 2, this.posy + 2)
         }
       }
       if (2 <= this.posx && this.posx <= 9 && 2 <=this.posy && this.posy <= 8 && board[this.posx - 1][this.posy - 1] === undefined){
-        if(this.arrayIncludes([this.posx - 2, this.posy - 2], this.allowedPlace())){
+        if(arrayIncludes([this.posx - 2, this.posy - 2], this.allowedPlace())){
           this.getPath(listPossible, board, this.posx - 2, this.posy -2)
         }
       }

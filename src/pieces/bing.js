@@ -10,7 +10,7 @@ export default class Bing extends Piece {
     //returns a list of all possible places that it can go
     isMovePossible(board){
       var listPossible = []
-      if(this.player === 1){
+      if(this.player.playerId === 1){
         // it can always move forward
         if(this.posx < 9){
           this.getPath(listPossible, board, this.posx + 1, this.posy) 

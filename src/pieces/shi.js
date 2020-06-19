@@ -1,4 +1,5 @@
 import BoxedPiece from './boxedPiece.js';
+import arrayIncludes from '../helper/arrayEquals.js'
 //a boxed piece
 // can't get out of the box
 // can only go diagonally
@@ -12,7 +13,7 @@ export default class Shi extends BoxedPiece {
     var listPossible = []
     var possible = [[this.posx + 1, this.posy + 1], [this.posx + 1, this.posy - 1], [this.posx - 1, this.posy + 1], [this.posx - 1, this.posy - 1]]
     for (var ii = 0; ii < possible.length; ++ii){
-      if (this.arrayIncludes(possible[ii], this.box())){
+      if (arrayIncludes(possible[ii], this.box())){
         this.getPath(listPossible, board, possible[ii][0], possible[ii][1])
       }
     }

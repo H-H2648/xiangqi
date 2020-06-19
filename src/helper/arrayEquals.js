@@ -18,7 +18,7 @@ function arraysEqual(a, b) {
   }
 
 //finds if a is inside an array, b
-function arrayIncludes(a, b){
+export default function arrayIncludes(a, b){
     for (var ii = 0; ii < b.length; ++ii){
         if (arraysEqual(b[ii], a)){
             return true
