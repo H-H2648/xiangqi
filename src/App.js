@@ -4,6 +4,7 @@ import Board from './setup/board.js'
 import initializeBoard from './setup/initialize.js'
 import Player from './setup/player.js';
 import arrayIncludes from './helper/arrayEquals.js'
+import _ from "lodash" 
 
 
 //main react code
@@ -64,11 +65,12 @@ class App extends Component {
         // if player chooses places that are not their own pieces and is actually accessible by the piece chosen:
         if (arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].isMovePossible(points))){
           //creates a theoretical board such that we see if this move results in getting checked yourself (prevents suicide)
-          const theoreticalPoints = points
+          const theoreticalPoints = _.cloneDeep(points)
           console.log(theoreticalPoints)
           theoreticalPoints[ij[0]][ij[1]] = theoreticalPoints[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
           theoreticalPoints[ij[0]][ij[1]].posx = ij[0]
           theoreticalPoints[ij[0]][ij[1]].posy = ij[1]
+          delete theoreticalPoints[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
           //if we have a suicide
           if (this.state.player.isInDanger(theoreticalPoints)){
             this.setState({

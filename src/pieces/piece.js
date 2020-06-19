@@ -19,10 +19,6 @@ export default class Piece {
      
     // if the place is open, then it can obviously go there (assuming that this place is accessible by the piece)
     // 
-      console.log(board)
-      console.log(positionx)
-      console.log(positiony)
-      console.log(board[positionx])
       if (board[positionx][positiony] === undefined || board[positionx][positiony].player !== this.player){
         list.push([positionx, positiony])
       }
