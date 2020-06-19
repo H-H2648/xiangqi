@@ -6,16 +6,21 @@ export default class Player{
         this.kingPosy = kingPosy;
     }
 
-    isInDanger(board){
+    isInDanger(board, opponentPlayer){
         for(var ii = 0; ii < 10; ++ii){
             for (var jj = 0; jj < 9; ++jj){
                 if (board[ii][jj] && board[ii][jj].player.playerId != this.playerId){
-                    if(ii === 1 && jj === 4){
-                        console.log([this.kingPosx, this.kingPosy])
-                        console.log(board[ii][jj].isMovePossible(board))
-                        console.log(arrayIncludes([this.kingPosx, this.kingPosy], board[ii][jj].isMovePossible(board)))
-                    }
+                    //finds if anything can kill the jiang
                     if (arrayIncludes([this.kingPosx, this.kingPosy], board[ii][jj].isMovePossible(board))){
+                        return true
+                    }
+                    //finds whether jiang and jiang will be on the same vertical line with nothing in between
+                    if (this.kingPosy === opponentPlayer.kingPosy){
+                        for (var ii = 0; ii < opponentPlayer.kingPosx; ++ii){
+                            if(board[ii][this.kigPosy]){
+                                return false
+                            }
+                        }
                         return true
                     }
                 }
