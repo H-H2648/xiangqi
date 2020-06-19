@@ -1,6 +1,10 @@
 // imports lodash so I can use deepcopy (copies an array without direct reference)
 // just importing deepcopy doesn't make the function work for some reason so I just inefficiently imported the whole thing
 import _ from "lodash" 
+
+
+const clone = require('rfdc')()
+
 //general properties of a piece. It has a player, appearances, posx, posy
 export default class Piece {
     constructor(player, iconUrl, posx, posy){
@@ -29,22 +33,34 @@ export default class Piece {
 
     //checks if going to the point, [positionx, positiony], is suicidal
     isSuicide(board, positionx, positiony, opponentPlayer){
-      const theoreticalPoints = _.cloneDeep(board)
+      //for some reason cloneDeep seem to be cloned with some corruption(?)
+      //const theoreticalPoints = _.cloneDeep(board)
+      //console.log(theoreticalPoints)
+      // rfdc dont work either
+      // may need to write my own clone function :(
+      const theoreticalPoints = clone(board)
+      console.log(theoreticalPoints)
       theoreticalPoints[positionx][positiony] = theoreticalPoints[this.posx][this.posy]
       theoreticalPoints[positionx][positiony].posx = positionx
       theoreticalPoints[positionx][positiony].posy = positiony
       delete theoreticalPoints[this.posx][this.posy]
+      //console.log(theoreticalPoints)
+      //console.log(this.player)
       //checks for suicide
-      if (this.state.player.isInDanger(theoreticalPoints, opponentPlayer
-        )){
+      if (this.player.isInDanger(theoreticalPoints, opponentPlayer)){
         return true;
       }
       return false;
     }
 
     fullSafeList(board, opponentPlayer){
-      isMovePossible = this.isMovePossible(board)
-      fullSafeList = _.remove(isMovePossible, function(n){isSuicide(board, n[0], n[1], opponentPlayer)})
-      return fullSafeList
+      const isMovePossible = this.isMovePossible(board)
+      console.log(isMovePossible)
+      //for some reason "this" doesn't really work inside {} so I will just make another reference
+      var reference = this
+      var unsafeList = _.remove(isMovePossible, function(n){ 
+        reference.isSuicide(board, n[0], n[1], opponentPlayer);
+      })
+      return isMovePossible
     }
 }

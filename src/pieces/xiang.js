@@ -42,6 +42,7 @@ export default class Xiang extends Piece {
       }
       return listPossible
     }
+
   
 
 }

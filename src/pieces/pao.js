@@ -60,5 +60,6 @@ export default class Pao extends Piece {
       }
       return listPossible
     }
+    
   
 }

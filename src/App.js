@@ -38,11 +38,11 @@ class App extends Component {
         this.setState({status: "Wrong selection. Choose player " + this.state.player + " pieces."});
       }
       else{
-        //not sure what this does lol
+        //makes the selected piece slightly green
         points[ij[0]][ij[1]].style = {...points[ij[0]][ij[1]].style, backgroundColor: "RGB(111,143,114)"}; // Emerald from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html
         // for debuggig purpose
         //DELETE LATER
-        console.log(points[ij[0]][ij[1]].isMovePossible(this.state.points))
+        //console.log(points[ij[0]][ij[1]].isMovePossible(this.state.points))
         // the status becomes: choose destination
         // the source slection is now [i, j]
         this.setState({
@@ -62,7 +62,9 @@ class App extends Component {
       }
       else{
         // if player chooses places that are not their own pieces and is actually accessible by the piece chosen:
-        console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
+        //console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]])
+        //console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
+        console.log(points)
         if (arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))){
           points[ij[0]][ij[1]] = points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
           points[ij[0]][ij[1]].posx = ij[0]
@@ -73,7 +75,7 @@ class App extends Component {
             statsus: "",
             sourceSelection: undefined,
             player: this.playerSwitch(this.state.player),
-            turn: this.colourSwitch(this.state.player),
+            turn: this.colourSwitch(this.state.turn),
             points: points
           })
         }

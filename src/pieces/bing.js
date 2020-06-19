@@ -41,4 +41,6 @@ export default class Bing extends Piece {
       }
       return listPossible     
     }
+
+
   }

@@ -22,4 +22,5 @@ export default class Jiang extends BoxedPiece {
     }
     return listPossible
   }
+
 }
