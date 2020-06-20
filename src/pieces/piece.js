@@ -35,21 +35,12 @@ export default class Piece {
 
     //checks if going to the point, [positionx, positiony], is suicidal
     isSuicide(board, positionx, positiony, opponentPlayer){
-      //for some reason cloneDeep seem to be cloned with some corruption(?)
-      //const theoreticalPoints = _.cloneDeep(board)
-      //console.log(theoreticalPoints)
-      // rfdc dont work either
-      // may need to write my own clone function :(
       const theoreticalPoints = cloneBoard(board)
-      //console.log(theoreticalPoints)
       theoreticalPoints[positionx][positiony] = theoreticalPoints[this.posx][this.posy]
       theoreticalPoints[positionx][positiony].posx = positionx
       theoreticalPoints[positionx][positiony].posy = positiony
       delete theoreticalPoints[this.posx][this.posy]
-      //console.log(theoreticalPoints)
-      //console.log(this.player)
       //checks for suicide
-      console.log(this.player.isInDanger(theoreticalPoints, opponentPlayer))
       if (this.player.isInDanger(theoreticalPoints, opponentPlayer)){
         return true;
       }
@@ -58,11 +49,21 @@ export default class Piece {
 
     fullSafeList(board, opponentPlayer){
       const isMovePossible = this.isMovePossible(board)
-      //console.log(isMovePossible)
       //for some reason "this" doesn't really work inside {} so I will just make another reference
       var reference = this
       var fullSafeList = isMovePossible.filter(function(value){
-        return !(reference.isSuicide(board, value[0], value[1], opponentPlayer));
+        const OGX = reference.player.kingPosx
+        const OGY = reference.player.kingPosy
+        //if we are theoretically moving the king, we also need to theoretically change the king position stored inside player
+        if (reference.type === "Jiang"){
+          reference.player.kingPosx = value[0]
+          reference.player.kingPosy = value[1]
+        }
+        const truth = !(reference.isSuicide(board, value[0], value[1], opponentPlayer))
+        //we will need to bring it back
+        reference.player.kingPosx = OGX
+        reference.player.kingPosy = OGY
+        return truth;
       })
       return fullSafeList
     }

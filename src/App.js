@@ -31,8 +31,6 @@ class App extends Component {
   
   //function when point [i, j] is selected
   handleClick(ij){
-    console.log(this.state.player)
-    console.log(this.state.sourceSelection)
     const points = this.state.points.slice();
     //if nothing was selected before:
     if (this.state.sourceSelection === undefined){
@@ -43,13 +41,8 @@ class App extends Component {
       else{
         //makes the selected piece slightly green
         points[ij[0]][ij[1]].style = {...points[ij[0]][ij[1]].style, backgroundColor: "RGB(111,143,114)"}; // Emerald from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html
-        // for debuggig purpose
-        //DELETE LATER
-        //console.log(points[ij[0]][ij[1]].isMovePossible(this.state.points))
         // the status becomes: choose destination
         // the source slection is now [i, j]
-        console.log(points[ij[0]][ij[1]].isMovePossible(points))
-        console.log(points[ij[0]][ij[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
         this.setState({
           status: "Choose destination for the selected piece",
           sourceSelection: [ij[0], ij[1]]
@@ -66,17 +59,7 @@ class App extends Component {
         });
       }
       else{
-        console.log(ij)
-        console.log(this.state.player)
-        console.log(this.playerSwitch(this.state.player))
-        console.log(this.state.player)
-        console.log(this.playerSwitch(this.state.player))
-        console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
-        console.log(arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player))))
         // if player chooses places that are not their own pieces and is actually accessible by the piece chosen:
-        //console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]])
-        //console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
-        //console.log(points)
         //if the jiang is to move, we need to make a clone player so we can actually theoretically move the king (since the position of the king is stored inside the player)
         if (points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].type == "Jiang"){
           //temporarily assumes the king is moved.
@@ -87,13 +70,37 @@ class App extends Component {
             points[ij[0]][ij[1]].posx = ij[0]
             points[ij[0]][ij[1]].posy = ij[1]
             delete points[this.state.sourceSelection[0]][this.state.sourceSelection[1]];
-            this.setState({
-              statsus: "",
-              sourceSelection: undefined,
-              player: this.playerSwitch(this.state.player, this.state.playerlst),
-              turn: this.colourSwitch(this.state.turn),
-              points: points
-            })
+            //if the opponent's jiang is in danger after your move, your opponent will obtain this information
+            if(this.playerSwitch(this.state.player).isInDanger(points, this.state.player)){
+              //if your opponent is dead... CONGRATULATION YOU WON
+              if(this.playerSwitch(this.state.player).isDead(points, this.state.player)){
+                this.setState({
+                  status: "YOU LOST THE GAME GOODBYE",
+                  sourceSelection: undefined,
+                  player: this.playerSwitch(this.state.player, this.state.playerlst),
+                  turn: this.colourSwitch(this.state.turn),
+                  points: points
+                })
+              }
+              else{
+                this.setState({
+                  status: "YOUR JIANG IS IN DANGER. PLEASE DO SOMETHING",
+                  sourceSelection: undefined,
+                  player: this.playerSwitch(this.state.player, this.state.playerlst),
+                  turn: this.colourSwitch(this.state.turn),
+                  points: points
+                })
+              }
+            }
+            else{
+              this.setState({
+                status: "",
+                sourceSelection: undefined,
+                player: this.playerSwitch(this.state.player, this.state.playerlst),
+                turn: this.colourSwitch(this.state.turn),
+                points: points
+              })
+            }
           }
           else {
             this.state.player.kingPosx = this.state.sourceSelection[0]
@@ -110,13 +117,35 @@ class App extends Component {
           points[ij[0]][ij[1]].posy = ij[1]
           delete points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
           //changes player
-          this.setState({
-            statsus: "",
-            sourceSelection: undefined,
-            player: this.playerSwitch(this.state.player , this.state.playerlst),
-            turn: this.colourSwitch(this.state.turn),
-            points: points
-          })
+          if(this.playerSwitch(this.state.player).isInDanger(points, this.state.player)){
+            if(this.playerSwitch(this.state.player).isDead(points, this.state.player)){
+              this.setState({
+                status: "YOU LOST THE GAME GOODBYE",
+                sourceSelection: undefined,
+                player: this.playerSwitch(this.state.player, this.state.playerlst),
+                turn: this.colourSwitch(this.state.turn),
+                points: points
+              })
+            }
+            else{
+              this.setState({
+                status: "YOUR JIANG IS IN DANGER. PLEASE DO SOMETHING",
+                sourceSelection: undefined,
+                player: this.playerSwitch(this.state.player, this.state.playerlst),
+                turn: this.colourSwitch(this.state.turn),
+                points: points
+              })
+            }
+          }
+          else{
+            this.setState({
+              status: "",
+              sourceSelection: undefined,
+              player: this.playerSwitch(this.state.player , this.state.playerlst),
+              turn: this.colourSwitch(this.state.turn),
+              points: points
+            })
+          }
         }
         // if player tries to move their piece to an unaccessible place:
         else {
