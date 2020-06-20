@@ -4,8 +4,8 @@ import arrayIncludes from '../helper/arrayEquals.js'
 // can't cross the river
 
 export default class Xiang extends Piece {
-    constructor(player, posx, posy){
-      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/7/77/Xiangqi_el1.svg" : "https://upload.wikimedia.org/wikipedia/commons/1/1a/Xiangqi_ed1.svg"), posx, posy);
+    constructor(player, posx, posy, type="Xiang"){
+      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/7/77/Xiangqi_el1.svg" : "https://upload.wikimedia.org/wikipedia/commons/1/1a/Xiangqi_ed1.svg"), posx, posy, type);
     }
 
     //all the points xiang can theoretically go to

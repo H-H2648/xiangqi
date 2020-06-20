@@ -2,8 +2,8 @@ import Piece from './piece.js';
 
 //bing (it can only move forward (by one) before it "crosses" the river (x = 4, 5). Once it crosses the river it can move sidways)
 export default class Bing extends Piece {
-    constructor(player, posx, posy){
-      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/0/0f/Xiangqi_sl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/0/03/Xiangqi_sd1.svg"), posx, posy);
+    constructor(player, posx, posy, type="Bing"){
+      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/0/0f/Xiangqi_sl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/0/03/Xiangqi_sd1.svg"), posx, posy, type);
     }
 
     

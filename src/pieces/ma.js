@@ -3,8 +3,8 @@ import Piece from './piece.js';
 //it moves one in one direction, then a diagonal with the component of the direction it moved in being positive. If there is anything in the way between it, then ma cannob move
 
 export default class Ma extends Piece {
-    constructor(player, posx, posy){
-      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/0/04/Xiangqi_hl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xiangqi_hd1.svg"), posx, posy);
+    constructor(player, posx, posy, type="Ma"){
+      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/0/04/Xiangqi_hl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/9d/Xiangqi_hd1.svg"), posx, posy, type);
     }
   
     //checks if there is anything that is blocking ma's way

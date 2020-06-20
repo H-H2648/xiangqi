@@ -32,8 +32,11 @@ export default class Player{
         const start = Math.min(this.kingPosx, opponentPlayer.kingPosx)
         const end = Math.max(this.kingPosx, opponentPlayer.kingPosx)
         for(var ii = start + 1; ii < end; ++ii){
-            console.log(ii)
             if(board[ii][this.kingPosy] !== undefined){
+                console.log("good news!")
+                console.log("this guy is in the way")
+                console.log([ii, this.kingPosy])
+                console.log(board[ii][this.kingPosy])
                 return false
             }
         }

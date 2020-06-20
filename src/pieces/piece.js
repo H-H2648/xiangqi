@@ -1,6 +1,5 @@
 // imports lodash so I can use deepcopy (copies an array without direct reference)
 // just importing deepcopy doesn't make the function work for some reason so I just inefficiently imported the whole thing
-import _ from "lodash" 
 import cloneBoard from "../helper/boardClone.js"
 
 
@@ -8,11 +7,12 @@ import cloneBoard from "../helper/boardClone.js"
 
 //general properties of a piece. It has a player, appearances, posx, posy
 export default class Piece {
-    constructor(player, iconUrl, posx, posy){
+    constructor(player, iconUrl, posx, posy, type){
       this.player = player;
       this.style = {backgroundImage: "url('"+iconUrl+"')"};
       this.posx = posx
       this.posy = posy
+      this.type = type
     }
 
     getPath(list, board, positionx, positiony){
@@ -31,7 +31,7 @@ export default class Piece {
       if (board[positionx][positiony] === undefined || board[positionx][positiony].player !== this.player){
         list.push([positionx, positiony])
       }
-  }
+    }
 
     //checks if going to the point, [positionx, positiony], is suicidal
     isSuicide(board, positionx, positiony, opponentPlayer){
@@ -61,7 +61,7 @@ export default class Piece {
       //for some reason "this" doesn't really work inside {} so I will just make another reference
       var reference = this
       var fullSafeList = isMovePossible.filter(function(value){
-        return !reference.isSuicide(board, value[0], value[1], opponentPlayer);
+        return !(reference.isSuicide(board, value[0], value[1], opponentPlayer));
       })
       return fullSafeList
     }

@@ -4,8 +4,8 @@ import Piece from './piece.js';
 // in order for it to kill something, it must have something between (like a cannon shooting)
 
 export default class Pao extends Piece {
-    constructor(player, posx, posy){
-      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/1/1f/Xiangqi_cl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/4/43/Xiangqi_cd1.svg"), posx, posy);
+    constructor(player, posx, posy, type="Pao"){
+      super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/1/1f/Xiangqi_cl1.svg" : "https://upload.wikimedia.org/wikipedia/commons/4/43/Xiangqi_cd1.svg"), posx, posy, type);
     }
   
     //checks move in all directions

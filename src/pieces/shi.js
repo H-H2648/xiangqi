@@ -5,8 +5,8 @@ import arrayIncludes from '../helper/arrayEquals.js'
 // can only go diagonally
 
 export default class Shi extends BoxedPiece {
-  constructor(player, posx, posy){
-    super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/e/ed/Xiangqi_al1.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/f5/Xiangqi_ad1.svg"), posx, posy);
+  constructor(player, posx, posy, type="Shi"){
+    super(player, (player.playerId === 1? "https://upload.wikimedia.org/wikipedia/commons/e/ed/Xiangqi_al1.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/f5/Xiangqi_ad1.svg"), posx, posy, type);
   }
   
   isMovePossible(board){

@@ -6,6 +6,7 @@ import Player from './setup/player.js';
 import arrayIncludes from './helper/arrayEquals.js'
 
 
+
 //main react code
 var player1 = new Player(1, 0, 4)
 var player2 = new Player(2, 9, 4)
@@ -45,7 +46,6 @@ class App extends Component {
         //console.log(points[ij[0]][ij[1]].isMovePossible(this.state.points))
         // the status becomes: choose destination
         // the source slection is now [i, j]
-        console.log(points[ij[0]][ij[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
         this.setState({
           status: "Choose destination for the selected piece",
           sourceSelection: [ij[0], ij[1]]
@@ -66,7 +66,34 @@ class App extends Component {
         //console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]])
         //console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
         //console.log(points)
-        if (arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))){
+        //if the jiang is to move, we need to make a clone player so we can actually theoretically move the king (since the position of the king is stored inside the player)
+        if (points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].type == "Jiang"){
+          //temporarily assumes the king is moved.
+          this.state.player.kingPosx = ij[0]
+          this.state.player.kingPosy = ij[1]
+          if (arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))){
+            points[ij[0]][ij[1]] = points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
+            points[ij[0]][ij[1]].posx = ij[0]
+            points[ij[0]][ij[1]].posy = ij[1]
+            delete points[this.state.sourceSelection[0]][this.state.sourceSelection[1]];
+            this.setState({
+              statsus: "",
+              sourceSelection: undefined,
+              player: this.playerSwitch(this.state.player, this.state.playerlst),
+              turn: this.colourSwitch(this.state.turn),
+              points: points
+            })
+          }
+          else {
+            this.state.player.kingPosx = this.state.sourceSelection[0]
+            this.state.player.kingPosy = this.state.sourceSelection[1]
+            this.setState({
+              status: "Wrong selection. Choose valid source and destination again.",
+              sourceSelection: undefined
+            });
+          } 
+        }
+        else if (arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.state.player, this.playerSwitch(this.state.player)))){
           points[ij[0]][ij[1]] = points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
           points[ij[0]][ij[1]].posx = ij[0]
           points[ij[0]][ij[1]].posy = ij[1]
@@ -75,7 +102,7 @@ class App extends Component {
           this.setState({
             statsus: "",
             sourceSelection: undefined,
-            player: this.playerSwitch(this.state.player),
+            player: this.playerSwitch(this.state.player , this.state.playerlst),
             turn: this.colourSwitch(this.state.turn),
             points: points
           })
