@@ -7,52 +7,36 @@ export default class Player{
     }
 
     isInDanger(board, opponentPlayer){
-        //console.log(board)
-        //console.log('STARTS HERE')
-        //console.log(this.playerId)
+        //finds whether jiang and jiang will be on the same vertical line with nothing in between
+        if (this.kingPosy === opponentPlayer.kingPosy){
+            if (this.jiangMeet(board, opponentPlayer)){
+                return true
+            }
+        }
         for(var ii = 0; ii < 10; ++ii){
             for (var jj = 0; jj < 9; ++jj){
-                if(ii === 2 && jj === 4){
-                    //console.log(ii)
-                    //console.log(jj)
-                    //console.log(board[ii][jj])
-                    if(board[ii][jj]){
-                        //console.log(board[ii][jj].player.playerId)
-                    }
-                    //console.log(this.playerId)
-                }
-                //console.log([ii, jj])
-                //console.log(board[ii][jj])
-                if (board[ii][jj] !== undefined && board[ii][jj].player.playerId != this.playerId){
-                    //finds if anything can kill the jiang
-                    if(ii === 2 && jj === 4){
-                        //console.log(ii)
-                        //console.log(ii === 2)
-                        //console.log(jj)
-                        //console.log(jj === 4)
-                        //console.log(board[ii][jj])
-                        //console.log(board[ii][jj].isMovePossible(board))
-                        //console.log([this.kingPosx, this.kingPosy])
-                    }
+                if (board[ii][jj] && board[ii][jj].player.playerId != this.playerId){
+                    //finds whether jiang is killable
                     if (arrayIncludes([this.kingPosx, this.kingPosy], board[ii][jj].isMovePossible(board))){
-                        //console.log("killing jiang")
-                        //console.log([ii, jj])
-                        return true
-                    }
-                    //finds whether jiang and jiang will be on the same vertical line with nothing in between
-                    if (this.kingPosy === opponentPlayer.kingPosy){
-                        for (ii = 0; ii < opponentPlayer.kingPosx; ++ii){
-                            if(board[ii][this.kingPosy] !== undefined){
-                                return false
-                            }
-                        }
-                        //console.log("jiangs meet")
-                        //console.log([ii, jj])
                         return true
                     }
                 }
             }
         }
         return false
+    }
+
+    //helper function to tell whether the two jiangs are on the same line with nothing in between
+    // assumes two jiangs are on the same line
+    jiangMeet(board, opponentPlayer){
+        const start = Math.min(this.kingPosx, opponentPlayer.kingPosx)
+        const end = Math.max(this.kingPosx, opponentPlayer.kingPosx)
+        for(var ii = start + 1; ii < end; ++ii){
+            console.log(ii)
+            if(board[ii][this.kingPosy] !== undefined){
+                return false
+            }
+        }
+        return true
     }
 }

@@ -36,7 +36,7 @@ export default class Ma extends Piece {
           if (this.posx > 0){
             this.getPath(listPossible, board, this.posx-1, this.posy-2)
           }
-          if (this.posy < 9){
+          if (this.posx < 9){
             this.getPath(listPossible, board, this.posx+1, this.posy - 2)
           }
         }
@@ -46,7 +46,7 @@ export default class Ma extends Piece {
           if (this.posx > 0){
             this.getPath(listPossible, board, this.posx-1, this.posy + 2)
           }
-          if (this.posy < 9){
+          if (this.posx < 9){
             this.getPath(listPossible, board, this.posx+1, this.posy + 2)
           }
         }

@@ -1,9 +1,10 @@
 // imports lodash so I can use deepcopy (copies an array without direct reference)
 // just importing deepcopy doesn't make the function work for some reason so I just inefficiently imported the whole thing
 import _ from "lodash" 
+import cloneBoard from "../helper/boardClone.js"
 
 
-const clone = require('rfdc')()
+
 
 //general properties of a piece. It has a player, appearances, posx, posy
 export default class Piece {
@@ -26,6 +27,7 @@ export default class Piece {
      
     // if the place is open, then it can obviously go there (assuming that this place is accessible by the piece)
     // 
+
       if (board[positionx][positiony] === undefined || board[positionx][positiony].player !== this.player){
         list.push([positionx, positiony])
       }
@@ -38,8 +40,8 @@ export default class Piece {
       //console.log(theoreticalPoints)
       // rfdc dont work either
       // may need to write my own clone function :(
-      const theoreticalPoints = clone(board)
-      console.log(theoreticalPoints)
+      const theoreticalPoints = cloneBoard(board)
+      //console.log(theoreticalPoints)
       theoreticalPoints[positionx][positiony] = theoreticalPoints[this.posx][this.posy]
       theoreticalPoints[positionx][positiony].posx = positionx
       theoreticalPoints[positionx][positiony].posy = positiony
@@ -55,12 +57,12 @@ export default class Piece {
 
     fullSafeList(board, opponentPlayer){
       const isMovePossible = this.isMovePossible(board)
-      console.log(isMovePossible)
+      //console.log(isMovePossible)
       //for some reason "this" doesn't really work inside {} so I will just make another reference
       var reference = this
-      var unsafeList = _.remove(isMovePossible, function(n){ 
-        reference.isSuicide(board, n[0], n[1], opponentPlayer);
+      var fullSafeList = isMovePossible.filter(function(value){
+        return !reference.isSuicide(board, value[0], value[1], opponentPlayer);
       })
-      return isMovePossible
+      return fullSafeList
     }
 }
