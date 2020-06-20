@@ -49,6 +49,7 @@ export default class Piece {
       //console.log(theoreticalPoints)
       //console.log(this.player)
       //checks for suicide
+      console.log(this.player.isInDanger(theoreticalPoints, opponentPlayer))
       if (this.player.isInDanger(theoreticalPoints, opponentPlayer)){
         return true;
       }

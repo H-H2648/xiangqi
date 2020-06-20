@@ -31,6 +31,8 @@ class App extends Component {
   
   //function when point [i, j] is selected
   handleClick(ij){
+    console.log(this.state.player)
+    console.log(this.state.sourceSelection)
     const points = this.state.points.slice();
     //if nothing was selected before:
     if (this.state.sourceSelection === undefined){
@@ -46,6 +48,8 @@ class App extends Component {
         //console.log(points[ij[0]][ij[1]].isMovePossible(this.state.points))
         // the status becomes: choose destination
         // the source slection is now [i, j]
+        console.log(points[ij[0]][ij[1]].isMovePossible(points))
+        console.log(points[ij[0]][ij[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
         this.setState({
           status: "Choose destination for the selected piece",
           sourceSelection: [ij[0], ij[1]]
@@ -62,6 +66,13 @@ class App extends Component {
         });
       }
       else{
+        console.log(ij)
+        console.log(this.state.player)
+        console.log(this.playerSwitch(this.state.player))
+        console.log(this.state.player)
+        console.log(this.playerSwitch(this.state.player))
+        console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
+        console.log(arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player))))
         // if player chooses places that are not their own pieces and is actually accessible by the piece chosen:
         //console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]])
         //console.log(points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))
@@ -93,7 +104,7 @@ class App extends Component {
             });
           } 
         }
-        else if (arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.state.player, this.playerSwitch(this.state.player)))){
+        else if (arrayIncludes(ij, points[this.state.sourceSelection[0]][this.state.sourceSelection[1]].fullSafeList(points, this.playerSwitch(this.state.player)))){
           points[ij[0]][ij[1]] = points[this.state.sourceSelection[0]][this.state.sourceSelection[1]]
           points[ij[0]][ij[1]].posx = ij[0]
           points[ij[0]][ij[1]].posy = ij[1]
@@ -146,10 +157,10 @@ class App extends Component {
   */
 
   playerSwitch(player){
-    if (player === player1){
+    if (player == player1){
       return player2
     }
-    if (player === player2){
+    if (player == player2){
       return player1
     }
   }
