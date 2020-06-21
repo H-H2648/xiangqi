@@ -40,9 +40,6 @@ export default class Piece {
       theoreticalPoints[positionx][positiony].posx = positionx
       theoreticalPoints[positionx][positiony].posy = positiony
       theoreticalPoints[this.posx][this.posy] = new Empty(this.posx, this.posy)
-      if (this.posx === 2 && this.posy === 4 && positionx === 6 && positiony === 4){
-        console.log(theoreticalPoints)
-      }
       //checks for suicide
       if (this.player.isInDanger(theoreticalPoints, opponentPlayer)){
         return true;

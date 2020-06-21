@@ -64,6 +64,8 @@ class App extends Component {
     }
     // if the piece to move was already chosen:
     else if(this.state.sourceSelection !== undefined){
+      const sourceX = this.state.sourceSelection[0]
+      const sourceY = this.state.sourceSelection[1]
       // if the player tries to kill their own pieces
       if(points[ii][jj].player === this.state.player){
         this.resetBoard(points)
@@ -77,8 +79,6 @@ class App extends Component {
         //if the jiang is to move, we need to make a clone player so we can actually theoretically move the king (since the position of the king is stored inside the player)
         // we rename sourceSelection[0], sourceSelection[1] so that its more pleasing to look at:
         // sourceX = sourceSelection[0], sourceY = sourceSelction[1]
-        const sourceX = this.state.sourceSelection[0]
-        const sourceY = this.state.sourceSelection[1]
         if (points[sourceX][sourceY].type == "Jiang"){
           //temporarily assumes the king is moved.
           player.kingPosx = ii

@@ -30,7 +30,7 @@ export default class Player{
     isDead(board, opponentPlayer){
         for(var ii = 0; ii < 10; ++ii){
             for (var jj = 0; jj < 9; ++jj){
-                if(board[ii][jj] && board[ii][jj].player.playerId === this.playerId){
+                if(board[ii][jj].player && board[ii][jj].player.playerId === this.playerId){
                     if (board[ii][jj].fullSafeList(board, opponentPlayer).length !== 0){
                         return false
                     }
