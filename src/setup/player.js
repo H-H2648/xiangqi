@@ -15,9 +15,9 @@ export default class Player{
         }
         for(var ii = 0; ii < 10; ++ii){
             for (var jj = 0; jj < 9; ++jj){
-                if (board[ii][jj] && board[ii][jj].player.playerId != this.playerId){
+                if (board[ii][jj].player && board[ii][jj].player.playerId !== this.playerId ){
                     //finds whether jiang is killable
-                    if (arrayIncludes([this.kingPosx, this.kingPosy], board[ii][jj].isMovePossible(board))){
+                    if(arrayIncludes([this.kingPosx, this.kingPosy], board[ii][jj].isMovePossible(board))){
                         return true
                     }
                 }
@@ -47,7 +47,7 @@ export default class Player{
         const start = Math.min(this.kingPosx, opponentPlayer.kingPosx)
         const end = Math.max(this.kingPosx, opponentPlayer.kingPosx)
         for(var ii = start + 1; ii < end; ++ii){
-            if(board[ii][this.kingPosy] !== undefined){
+            if(board[ii][this.kingPosy].type !== "Empty"){
                 return false
             }
         }

@@ -12,7 +12,7 @@ export default class Ma extends Piece {
     isMovePossible(board){
       var listPossible = []
       if (this.posx > 1){
-        if (board[this.posx-1][this.posy] === undefined){
+        if (board[this.posx-1][this.posy].type === "Empty"){
           if (this.posy > 0){
             this.getPath(listPossible, board, this.posx-2, this.posy-1)
           }
@@ -22,7 +22,7 @@ export default class Ma extends Piece {
         }
       }
       if (this.posx < 8){
-        if(board[this.posx+1][this.posy] === undefined){
+        if(board[this.posx+1][this.posy].type === "Empty"){
           if (this.posy > 0){
             this.getPath(listPossible, board, this.posx+2, this.posy-1)
           }
@@ -32,7 +32,7 @@ export default class Ma extends Piece {
         }
       }
       if (this.posy > 1){
-        if (board[this.posx][this.posy - 1] === undefined){
+        if (board[this.posx][this.posy - 1].type === "Empty"){
           if (this.posx > 0){
             this.getPath(listPossible, board, this.posx-1, this.posy-2)
           }
@@ -42,7 +42,7 @@ export default class Ma extends Piece {
         }
       }
       if (this.posy < 7){
-        if (board[this.posx][this.posy + 1] === undefined){
+        if (board[this.posx][this.posy + 1].type === "Empty"){
           if (this.posx > 0){
             this.getPath(listPossible, board, this.posx-1, this.posy + 2)
           }

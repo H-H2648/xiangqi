@@ -5,6 +5,7 @@ import Ma from '../pieces/ma.js';
 import Pao from '../pieces/pao.js';
 import Shi from '../pieces/shi.js';
 import Xiang from '../pieces/xiang.js';
+import Empty from '../pieces/empty.js'
 
 //fully initializes the board in the beggining
 //puts all the pieces in the right place
@@ -47,5 +48,15 @@ export default function initializeBoard(player1, player2){
   board[9][6] = new Xiang(player2, 9, 6);
   board[9][7] = new Ma(player2, 9, 7);
   board[9][8] = new Ju(player2, 9, 8);
+
+
+  for (ii = 0; ii < 10; ++ii){
+    for(let jj = 0; jj < 9; ++jj){
+      if (board[ii][jj] === undefined){
+        board[ii][jj] = new Empty(ii, jj);
+      }
+    }
+  }
+  
   return board;
 }

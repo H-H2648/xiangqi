@@ -13,46 +13,48 @@ export default class Pao extends Piece {
     isMovePossible(board){
       var listPossible = []
       var x = this.posx + 1
-      while (x < 10 && board[x][this.posy] === undefined){
+      while (x < 10 && board[x][this.posy].type === "Empty"){
         this.getPath(listPossible, board, x, this.posy)
         x = x + 1
       }
       x = x + 1
-      while (x < 10 && board[x][this.posy] === undefined){
+      while (x < 10 && board[x][this.posy].type === "Empty"){
         x = x + 1
       }
       if (x < 10){
-        this.getPath(listPossible, board, x, this.posy)
+        this.getPath(listPossible, board, x, this.posy)       
       }
       x = this.posx - 1
-      while (x >= 0 && board[x][this.posy] === undefined){
+      while (x >= 0 && board[x][this.posy].type === "Empty"){
         this.getPath(listPossible, board, x, this.posy)
         x = x - 1
       }
       x = x-1
-      while (x >= 0 && board[x][this.posy] === undefined){
+      while (x >= 0 && board[x][this.posy].type === "Empty"){
         x = x - 1
       }
       if (x >= 0 ){
         this.getPath(listPossible, board, x, this.posy)
       }
       var y = this.posy + 1
-      while (y < 9 && board[this.posx][y] === undefined){
+      while (y < 9 && board[this.posx][y].type === "Empty"){
         this.getPath(listPossible, board, this.posx, y)
         y = y + 1
       }
-      while (y < 9 && board[this.posx][y] === undefined){
+      y = y+1
+      while (y < 9 && board[this.posx][y].type === "Empty"){
         y = y+1
       }
       if (y < 9){
         this.getPath(listPossible, board, this.posx, y)
       }
       y = this.posy - 1
-      while (y >= 0 && board[this.posx][y] === undefined){
+      while (y >= 0 && board[this.posx][y].type === "Empty"){
         this.getPath(listPossible, board, this.posx, y)
         y = y - 1
       }
-      while (y >= 0 && board[this.posx][y] === undefined){
+      y = y-1
+      while (y >= 0 && board[this.posx][y].type === "Empty"){
         y = y-1
       }
       if (y >= 0){

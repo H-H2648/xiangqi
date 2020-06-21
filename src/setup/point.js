@@ -5,8 +5,6 @@ import '../App.css';
 // if a piece exists on that point, we actually put the image of the piece on it.
 export default function Point(props) {
     return (
-
-
       <button className = "square">
         <div className="point"
         onClick={props.onClick}

@@ -12,7 +12,7 @@ export default class Ju extends Piece {
     isMovePossible(board){
       var listPossible = []
       var x = this.posx - 1
-      while(x >= 0 && board[x][this.posy] === undefined){
+      while(x >= 0 && board[x][this.posy].type == "Empty"){
         this.getPath(listPossible, board, x, this.posy)
         x= x-1
       }
@@ -20,7 +20,7 @@ export default class Ju extends Piece {
         this.getPath(listPossible, board, x, this.posy)
       }
       x = this.posx + 1
-      while(x <= 9 && board[x][this.posy] === undefined){
+      while(x <= 9 && board[x][this.posy].type == "Empty"){
         this.getPath(listPossible, board, x, this.posy)
         x = x+1
       }
@@ -28,7 +28,7 @@ export default class Ju extends Piece {
         this.getPath(listPossible, board, x, this.posy)
       }
       var y = this.posy - 1
-      while(y >= 0 && board[this.posx][y] === undefined){
+      while(y >= 0 && board[this.posx][y].type === "Empty"){
         this.getPath(listPossible, board, this.posx, y) 
         y = y-1
       }
@@ -36,7 +36,7 @@ export default class Ju extends Piece {
         this.getPath(listPossible, board, this.posx, y)
       }
       y = this.posy + 1
-      while(y <= 8 && board[this.posx][y] === undefined){
+      while(y <= 8 && board[this.posx][y].type === "Empty"){
         this.getPath(listPossible, board, this.posx, y)
         y = y+1
       }

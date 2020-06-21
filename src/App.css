@@ -92,25 +92,27 @@ h3{
   background-image: linear-gradient(to bottom, black, black), linear-gradient(to right, black, black);
   background-repeat: no-repeat;
   background-position: 50px 0px, 0px 50px;
-}
-
-.square .point {
-  border: 1px solid transparent;
-  height: 95px;
-  width: 95x;
-  background-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
+  position: relative;
 }
 
 .point {
   border: 1px solid transparent;
   height: 100px;
   width: 100px;
-  
+  background-color:transparent;
   border-radius: 50%;
   display: inline-block;
+
+  position: absolute;
+  left: 2px;
+  top: 0%;
 }
+
+.point-green{
+  background-color: rgba(0, 128, 0, 0.459);
+}
+
+
 
 .square:focus {
   outline: none;

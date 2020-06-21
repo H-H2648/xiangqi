@@ -3,13 +3,14 @@ import _ from "lodash"
 
 
 export default function cloneBoard(board){
-    const boardClone = []
+    const boardClone = new Array(10)
     for (var ii = 0; ii < 10; ++ii){
-        var boardrow = []
+        var boardrow = new Array(9)
         for (var jj = 0; jj < 9; ++jj){
-            boardrow.push(_.cloneDeep(board[ii][jj]))
+            const clone = _.cloneDeep(board[ii][jj])
+            boardrow[jj] = clone
         }
-        boardClone.push(boardrow)
+        boardClone[ii] = boardrow
     }
     return boardClone
 }

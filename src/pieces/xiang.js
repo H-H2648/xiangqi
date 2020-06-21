@@ -20,22 +20,22 @@ export default class Xiang extends Piece {
     //outputs all places xiang can go to
     isMovePossible(board){
       var listPossible = []
-      if (0 <= this.posx && this.posx <= 7 && 0 <=this.posy && this.posy <= 6 && board[this.posx + 1][this.posy + 1] === undefined){
+      if (0 <= this.posx && this.posx <= 7 && 0 <=this.posy && this.posy <= 6 && board[this.posx + 1][this.posy + 1].type === "Empty"){
         if (arrayIncludes([this.posx + 2, this.posy + 2], this.allowedPlace())){
           this.getPath(listPossible, board, this.posx + 2, this.posy + 2)
         }
       }
-      if (0 <= this.posx && this.posx <= 7 && 2 <=this.posy && this.posy <= 8 && board[this.posx + 1][this.posy - 1] === undefined){
+      if (0 <= this.posx && this.posx <= 7 && 2 <=this.posy && this.posy <= 8 && board[this.posx + 1][this.posy - 1].type === "Empty"){
         if(arrayIncludes([this.posx + 2, this.posy - 2], this.allowedPlace())){
           this.getPath(listPossible, board, this.posx + 2, this.posy -2)
         }
       }
-      if (2 <= this.posx && this.posx <= 9 && 0 <=this.posy && this.posy <= 6 && board[this.posx - 1][this.posy + 1] === undefined){
+      if (2 <= this.posx && this.posx <= 9 && 0 <=this.posy && this.posy <= 6 && board[this.posx - 1][this.posy + 1].type === "Empty"){
         if (arrayIncludes([this.posx - 2, this.posy + 2], this.allowedPlace())){
           this.getPath(listPossible, board, this.posx - 2, this.posy + 2)
         }
       }
-      if (2 <= this.posx && this.posx <= 9 && 2 <=this.posy && this.posy <= 8 && board[this.posx - 1][this.posy - 1] === undefined){
+      if (2 <= this.posx && this.posx <= 9 && 2 <=this.posy && this.posy <= 8 && board[this.posx - 1][this.posy - 1].type === "Empty"){
         if(arrayIncludes([this.posx - 2, this.posy - 2], this.allowedPlace())){
           this.getPath(listPossible, board, this.posx - 2, this.posy -2)
         }
