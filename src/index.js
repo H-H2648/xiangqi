@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+import Game from './setup/Game'
+
+const express = require('express');
+const http = require('http');
+const socket = require('socket.io');
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Game />
   </React.StrictMode>,
   document.getElementById('root')
 );
