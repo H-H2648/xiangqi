@@ -18,11 +18,17 @@ class App extends Component {
     super();
     this.state = {
       // we start with setting up the board
+        // A: delete the comment above because the function is litterally initialize board
+        // A: change points to board
       points: initializeBoard(player1, player2),
       // the first player is player 1
+        // A: change from player to current player, then delete above comment 
       player: player1,
       // refers to the point selected; undefined because no point has been selected yet
+        // A: both comment and variable do not describe its purpose - point of piece selected to be moved, something like that. 
       sourceSelection: undefined,
+
+        // A: what does status mean??
       status: '',
       // it's the "red"'s turn lol
       turn: 'red'
@@ -31,14 +37,17 @@ class App extends Component {
 
   
   //function when point [i, j] is selected
+    // A: call it a point instead of ij, becase 
   handleClick(ij){
     const ii = ij[0]
     const jj = ij[1]
     const player = this.state.player
     const points = this.state.points.slice();
+
     //if nothing was selected before:
     if (this.state.sourceSelection === undefined){
       // the user must choose their own piece first
+      // A: this is kinda fucked, use current_player instead of player, and your const player was not being used.
       if(points[ii][jj].player !== this.state.player){
         this.setState({status: "Wrong selection. Choose player " + this.state.player + " pieces."});
       }
