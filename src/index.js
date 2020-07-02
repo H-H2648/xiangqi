@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Game from './setup/Game'
+import Game from './Game/Game'
 
 const express = require('express');
 const http = require('http');
