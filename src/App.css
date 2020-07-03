@@ -17,7 +17,7 @@ ol, ul {
   display: table;
 }
 
-.status {
+.message {
   margin-bottom: 10px;
 }
 .point:focus {
@@ -38,7 +38,7 @@ ol, ul {
 }
 
 
-.icons-attribution, .game-status, .fallen-soldier-block{
+.icons-attribution, .game-message, .fallen-soldier-block{
   margin-top: 10px;
   min-height: 25px;
   max-width: 100px;

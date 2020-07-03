@@ -18,17 +18,13 @@ class Game extends Component {
     super();
     this.state = {
       // we start with setting up the board
-        // A: delete the comment above because the function is litterally initialize board
-        // A: change points to board
-      points: initializeBoard(player1, player2),
+      board: initializeBoard(player1, player2),
       // the first player is player 1
-      // A: change from player to current player, then delete above comment 
-      player: player1,
-      // refers to the point selected; undefined because no point has been selected yet
-      // A: both comment and variable do not describe its purpose - point of piece selected to be moved, something like that. 
-      sourceSelection: undefined,
-              // A: what does status mean??
-      status: '',
+      currentPlayer: player1,
+      // refers to the piece to be moved; undefined because no point has been selected yet
+      pieceToBeMovedPosition: undefined,
+      // message to the user ()
+      messasge: '',
       // it's the "red"'s turn lol
       turn: 'red'
     }
@@ -36,155 +32,152 @@ class Game extends Component {
 
   
   //function when point [i, j] is selected
-      // A: call it a point instead of ij, becase 
-  handleClick(ij){
-    const ii = ij[0]
-    const jj = ij[1]
-    const player = this.state.player
-    const points = this.state.points.slice();
+  handleClick(point){
+    positionX, positionY = point[0], point[1]
+    const currentPlayer = this.state.currentPlayer
+    const board = this.state.board.slice();
     //if nothing was selected before:
-    if (this.state.sourceSelection === undefined){
+    if (this.state.pieceToBeMovedPosition === undefined){
       // the user must choose their own piece first
-      // A: this is kinda fucked, use current_player instead of player, and your const player was not being used.
-      if(points[ii][jj].player !== this.state.player){
-        this.setState({status: "Wrong selection. Choose player " + this.state.player + " pieces."});
+      if(board[positionX][positionY].player !== currentPlayer){
+        this.setState({message: "Wrong selection. Choose player " + currentPlayer + " pieces."});
       }
       else{
         //makes the selected piece slightly green
-        points[ii][jj].style = {...points[ii][jj].style, backgroundColor: "RGB(111,143,114)"};
-        //fullLIST is the list of all safe locations that the given piece can go 
-        const fullLIST = points[ii][jj].fullSafeList(points, this.playerSwitch(player))
-        for(let kk = 0; kk < fullLIST.length; ++kk){
+        board[positionX][positionY].style = {...board[positionX][positionY].style, backgroundColor: "RGB(111,143,114)"};
+        //validPointsList is the list of all safe locations that the given piece can go 
+        const validPointsList = board[positionX][positionY].fullSafeList(board, this.playerSwitch(currentPlayer))
+        for(let ii = 0; ii < validPointsList.length; ++ii){
           // x and y are the coordinates of the safe location to go
-          let x = fullLIST[kk][0]
-          let y = fullLIST[kk][1]
+          let validX = validPointsList[ii][0]
+          let validY = validPointsList[ii][1]
           // shows the available spot as green (slightly transparent)
-          points[x][y].style = {...points[x][y].style,   backgroundColor: "rgba(0, 128, 0, 0.459)"}
+          board[validX][validY].style = {...board[validX][validY].style,   backgroundColor: "rgba(0, 128, 0, 0.459)"}
         }
-                // the status becomes: choose destination
+                // the message becomes: choose destination
         // the source slection is now [i, j]
         this.setState({
-          status: "Choose destination for the selected piece",
-          sourceSelection: [ii, jj]
+          message: "Choose destination for the selected piece",
+          pieceToBeMovedPosition: [positionX, positionY]
         });
       }
     }
     // if the piece to move was already chosen:
-    else if(this.state.sourceSelection !== undefined){
-      const sourceX = this.state.sourceSelection[0]
-      const sourceY = this.state.sourceSelection[1]
+    else if(this.state.pieceToBeMovedPosition !== undefined){
+      const pieceToBeMovedPosX = this.state.pieceToBeMovedPosition[0]
+      const pieceToBeMovedPosY = this.state.pieceToBeMovedPosition[1]
       // if the player tries to kill their own pieces
-      if(points[ii][jj].player === this.state.player){
-        this.resetBoard(points)
+      if(board[positionX][positionY].player === currentPlayer){
+        this.resetBoard(board)
         this.setState({
-          status: "Wrong selection. Choose valid source and destination again.",
-          sourceSelection: undefined
+          message: "Wrong selection. Choose valid source and destination again.",
+          pieceToBeMovedPosition: undefined
         });
       }
       else{
         // if player chooses places that are not their own pieces and is actually accessible by the piece chosen:
         //if the jiang is to move, we need to make a clone player so we can actually theoretically move the king (since the position of the king is stored inside the player)
         // we rename sourceSelection[0], sourceSelection[1] so that its more pleasing to look at:
-        // sourceX = sourceSelection[0], sourceY = sourceSelction[1]
-        if (points[sourceX][sourceY].type == "Jiang"){
+        // pieceToBeMovedPosX = sourceSelection[0], pieceToBeMovedPosY = sourceSelction[1]
+        if (board[pieceToBeMovedPosX][pieceToBeMovedPosY].type == "Jiang"){
           //temporarily assumes the king is moved.
-          player.kingPosx = ii
-          player.kingPosy = jj
-          if (arrayIncludes(ij, points[sourceX][sourceY].fullSafeList(points, this.playerSwitch(player)))){
-            points[ii][jj] = points[sourceX][sourceY]
-            points[ii][jj].posx = ii
-            points[ii][jj].posy= jj
-            points[sourceX][sourceY] = new Empty(sourceX, sourceY)
+          currentPlayer.kingPosx = positionX
+          currentPlayer.kingPosy = positionY
+          if (arrayIncludes(point, board[pieceToBeMovedPosX][pieceToBeMovedPosY].fullSafeList(board, this.playerSwitch(currentPlayer)))){
+            board[positionX][positionY] = board[pieceToBeMovedPosX][pieceToBeMovedPosY]
+            board[positionX][positionY].posx = positionX
+            board[positionX][positionY].posy= positionY
+            board[pieceToBeMovedPosX][pieceToBeMovedPosY] = new Empty(pieceToBeMovedPosX, pieceToBeMovedPosY)
             //if the opponent's jiang is in danger after your move, your opponent will obtain this information
-            if(this.playerSwitch(player).isInDanger(points, player)){
+            if(this.playerSwitch(currentPlayer).isInDanger(board, currentPlayer)){
               //if your opponent is dead... CONGRATULATION YOU WON
-              this.resetBoard(points)
-              if(this.playerSwitch(player).isDead(points, player)){
+              this.resetBoard(board)
+              if(this.playerSwitch(currentPlayer).isDead(board, currentPlayer)){
                 this.setState({
-                  status: "YOU LOST THE GAME GOODBYE",
-                  sourceSelection: undefined,
-                  player: this.playerSwitch(player),
+                  message: "YOU LOST THE GAME GOODBYE",
+                  pieceToBeMovedPosition: undefined,
+                  currentPlayer: this.playerSwitch(currentPlayer),
                   turn: this.colourSwitch(this.state.turn),
-                  points: points
+                  board: board
                 })
               }
               else{
-                this.resetBoard(points)
+                this.resetBoard(board)
                 this.setState({
-                  status: "YOUR JIANG IS IN DANGER. PLEASE DO SOMETHING",
-                  sourceSelection: undefined,
-                  player: this.playerSwitch(player),
+                  message: "YOUR JIANG IS IN DANGER. PLEASE DO SOMETHING",
+                  pieceToBeMovedPosition: undefined,
+                  currentPlayer: this.playerSwitch(currentPlayer),
                   turn: this.colourSwitch(this.state.turn),
-                  points: points
+                  board: board
                 })
               }
             }
             else{
-              this.resetBoard(points)
+              this.resetBoard(board)
               this.setState({
-                status: "",
-                sourceSelection: undefined,
-                player: this.playerSwitch(player),
+                message: "",
+                pieceToBeMovedPosition: undefined,
+                currentPlayer: this.playerSwitch(currentPlayer),
                 turn: this.colourSwitch(this.state.turn),
-                points: points
+                board: board
               })
             }
           }
           else {
-            player.kingPosx = sourceX
-            player.kingPosy = sourceY
-            this.resetBoard(points)
+            currentPlayer.kingPosx = pieceToBeMovedPosX
+            currentPlayer.kingPosy = pieceToBeMovedPosY
+            this.resetBoard(board)
             this.setState({
-              status: "Wrong selection. Choose valid source and destination again.",
-              sourceSelection: undefined
+              message: "Wrong selection. Choose valid source and destination again.",
+              pieceToBeMovedPosition: undefined
             });
           } 
         }
-        else if (arrayIncludes(ij, points[sourceX][sourceY].fullSafeList(points, this.playerSwitch(player)))){
-          points[ii][jj] = points[sourceX][sourceY]
-          points[ii][jj].posx = ii
-          points[ii][jj].posy = jj
-          points[sourceX][sourceY] = new Empty(sourceX, sourceY)
+        else if (arrayIncludes(point, board[pieceToBeMovedPosX][pieceToBeMovedPosY].fullSafeList(board, this.playerSwitch(currentPlayer)))){
+          board[positionX][positionY] = board[pieceToBeMovedPosX][pieceToBeMovedPosY]
+          board[positionX][positionY].posx = positionX
+          board[positionX][positionY].posy = positionY
+          board[pieceToBeMovedPosX][pieceToBeMovedPosY] = new Empty(pieceToBeMovedPosX, pieceToBeMovedPosY)
           //changes player
-          if(this.playerSwitch(player).isInDanger(points, player)){
-            if(this.playerSwitch(player).isDead(points, player)){
-              this.resetBoard(points)
+          if(this.playerSwitch(currentPlayer).isInDanger(board, currentPlayer)){
+            if(this.playerSwitch(currentPlayer).isDead(board, currentPlayer)){
+              this.resetBoard(board)
               this.setState({
-                status: "YOU LOST THE GAME GOODBYE",
-                sourceSelection: undefined,
-                player: this.playerSwitch(player),
+                message: "YOU LOST THE GAME GOODBYE",
+                pieceToBeMovedPosition: undefined,
+                currentPlayer: this.playerSwitch(currentPlayer),
                 turn: this.colourSwitch(this.state.turn),
-                points: points
+                board: board
               })
             }
             else{
-              this.resetBoard(points)
+              this.resetBoard(board)
               this.setState({
-                status: "YOUR JIANG IS IN DANGER. PLEASE DO SOMETHING",
-                sourceSelection: undefined,
-                player: this.playerSwitch(player),
+                message: "YOUR JIANG IS IN DANGER. PLEASE DO SOMETHING",
+                pieceToBeMovedPosition: undefined,
+                currentPlayer: this.playerSwitch(currentPlayer),
                 turn: this.colourSwitch(this.state.turn),
-                points: points
+                board: board
               })
             }
           }
           else{
-            this.resetBoard(points)
+            this.resetBoard(board)
             this.setState({
-              status: "",
-              sourceSelection: undefined,
-              player: this.playerSwitch(player),
+              message: "",
+              pieceToBeMovedPosition: undefined,
+              currentPlayer: this.playerSwitch(currentPlayer),
               turn: this.colourSwitch(this.state.turn),
-              points: points
+              board: board
             })
           }
         }
         // if player tries to move their piece to an unaccessible place:
         else {
-          this.resetBoard(points)
+          this.resetBoard(board)
           this.setState({
-            status: "Wrong selection. Choose valid source and destination again.",
-            sourceSelection: undefined
+            message: "Wrong selection. Choose valid source and destination again.",
+            pieceToBeMovedPosition: undefined
           });
         } 
       }
@@ -214,10 +207,10 @@ class Game extends Component {
   }
 
   resetBoard(board){
-    for(let ii = 0; ii < 10; ++ii){
-      for(let jj = 0; jj < 9; ++jj){
-        if (board[ii][jj].style){
-          board[ii][jj].style = {...board[ii][jj].style, backgroundColor: null}
+    for(let xx = 0; xx < 10; ++xx){
+      for(let yy = 0; yy < 9; ++yy){
+        if (board[xx][yy].style){
+          board[xx][yy].style = {...board[xx][yy].style, backgroundColor: null}
         }
       }
     }
@@ -229,7 +222,7 @@ class Game extends Component {
         <div className="game">
           <div className="game-board">
             <Board 
-            points = {this.state.points}
+            board = {this.state.board}
             onClick = {(i, j) => this.handleClick([i, j])}
             />
           </div>
@@ -238,7 +231,7 @@ class Game extends Component {
             <div id="player-turn-box" style={{backgroundColor: this.state.turn}}>
   
             </div>
-            <div className="game-status">{this.state.status}</div>
+            <div className="game-message">{this.state.message}</div>
             
           </div>
         </div>
