@@ -9,8 +9,8 @@ export default class Board extends React.Component {
  // it records the piece on it, the appearance of the piece and functions as a button 
   renderPoint(ii, jj) {
     return <Point
-      piece = { this.props.points[ii][jj] } 
-      style = {this.props.points[ii][jj]? this.props.points[ii][jj].style : null}
+      piece = { this.props.board[ii][jj] } 
+      style = {this.props.board[ii][jj]? this.props.board[ii][jj].style : null}
       onClick={() => this.props.onClick(ii, jj)} 
     />
   }
@@ -18,7 +18,7 @@ export default class Board extends React.Component {
 
 
   render() {
-    // for each row and column, we generate the point
+    // for each row and column, we generate a point
     var board = []
     for(let ii = 0; ii < 10; ++ii){
       var boardRows = [];

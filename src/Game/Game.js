@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import  './App.css';
+import  '../App.css';
 import Board from './board.js' 
 import initializeBoard from './initialize.js'
 import Player from './player.js';
@@ -33,7 +33,8 @@ class Game extends Component {
   
   //function when point [i, j] is selected
   handleClick(point){
-    positionX, positionY = point[0], point[1]
+    const positionX = point[0]
+    const positionY = point[1]
     const currentPlayer = this.state.currentPlayer
     const board = this.state.board.slice();
     //if nothing was selected before:

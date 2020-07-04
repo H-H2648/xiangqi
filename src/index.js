@@ -1,18 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import Enter from './Initial/Enter'
 import Game from './Game/Game'
 
-const express = require('express');
-const http = require('http');
-const socket = require('socket.io');
 
 ReactDOM.render(
   <React.StrictMode>
-    <Game />
+    <Enter />
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+/*
+ReactDOM.render(
+  <React.StrictMode>
+    <Enter />
+  </React.StrictMode>,
+  document.getElementById('root')
+)
+*/
 
 //OG index.js with hot module reloading
 
